@@ -23,7 +23,7 @@ sudo mysql_secure_installation
 
 # Create a new MariaDB user
 sudo mysql -u root -p
-# MariaDB [(none)]> CREATE DATABASE 'wordpress';
+# MariaDB [(none)]> CREATE DATABASE `wordpress`;
 # MariaDB [(none)]> CREATE USER 'wordpress'@localhost IDENTIFIED BY 'wp-mariadb-debian';
 #### Grant permissions to access and use the MySQL server from localhost only
 # MariaDB [(none)]> GRANT USAGE ON *.* TO 'wordpress'@localhost IDENTIFIED BY 'wp-mariadb-debian';
@@ -31,7 +31,7 @@ sudo mysql -u root -p
 # MariaDB [(none)]> GRANT USAGE ON *.* TO 'wordpress'@'%' IDENTIFIED BY 'wp-mariadb-debian';
 #### Grant all privileges on a specific database
 # MariaDB [(none)]> GRANT ALL privileges ON `wordpress`.* TO 'wordpress'@localhost;
-# MariaDB [(none)]> FLUS PRIVILEGES;
+# MariaDB [(none)]> FLUSH PRIVILEGES;
 # MariaDB [(none)]> SHOW GRANTS FOR 'wordpress'@localhost;
 
 # Download and verify phpMyAdmin
