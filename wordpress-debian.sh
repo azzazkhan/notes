@@ -7,7 +7,7 @@ wget -P Downloads https://wordpress.org/latest.zip
 cd Downloads
 unzip latest.zip
 # Move the contents of wordpress to apache web root
-sudo mv -v /wordpress/* /var/www/html
+sudo mv -v wordpress/* /var/www/html
 # Delete the downloaded files and empty folders
 rm -r wordpress & rm latest.zip
 
