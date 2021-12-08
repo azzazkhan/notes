@@ -6,7 +6,7 @@ sudo apt install apache2 -y
 systemctl status apache2
 
 # Install PHP on Debian 10
-sudo apt install php php-cgi php-mysqli php-pear php-mbstring php-gettext libapache2-mod-php php-common php-phpseclib php-mysql -y
+sudo apt install php php-cgi php-pear php-mbstring libapache2-mod-php php-common php-phpseclib php-mysql -y
 # Verify the PHP version
 php --version
 
