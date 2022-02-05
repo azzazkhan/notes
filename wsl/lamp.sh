@@ -109,12 +109,12 @@ cd ~
 wget https://raw.githubusercontent.com/azzazkhan/notes/master/commands/laraserve.sh -O .laraserve
 wget https://raw.githubusercontent.com/azzazkhan/notes/master/commands/larastop.sh -O .larastop
 chmod +x .laraserve .larastop
-echo "export laraserve=\"sh ~/.laraserve\"" >> ~/.zshrc
-echo "export larastart=\"sh ~/.laraserve\"" >> ~/.zshrc
-echo "export laraopen=\"sh ~/.laraserve\"" >> ~/.zshrc
-echo "export laraclose=\"sh ~/.larastop\"" >> ~/.zshrc
-echo "export larastop=\"sh ~/.larastop\"" >> ~/.zshrc
-echo "export laraend=\"sh ~/.larastop\"" >> ~/.zshrc
+echo "alias laraserve=\"sh ~/.laraserve\"" >> ~/.zshrc
+echo "alias larastart=\"sh ~/.laraserve\"" >> ~/.zshrc
+echo "alias laraopen=\"sh ~/.laraserve\"" >> ~/.zshrc
+echo "alias laraclose=\"sh ~/.larastop\"" >> ~/.zshrc
+echo "alias larastop=\"sh ~/.larastop\"" >> ~/.zshrc
+echo "alias laraend=\"sh ~/.larastop\"" >> ~/.zshrc
 
 # Setup Git to use Windows Git credentials manager
 git config --global user.name "Azzaz Khan"
