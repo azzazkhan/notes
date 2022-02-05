@@ -79,7 +79,7 @@ sudo mkdir /opt/phpmyadmin
 sudo tar xvf Downloads/phpMyAdmin-latest-all-languages.tar.gz --strip-components=1 -C /opt/phpmyadmin
 
 # Download the custom configuration file with pre-defined configurations for development environmant
-wget -P Downloads https://raw.githubusercontent.com/azzazkhan/notes/master/config.inc.php
+wget -P Downloads https://raw.githubusercontent.com/azzazkhan/notes/master/stubs/phpmyadmin-config.inc.php
 sudo mv ~/Downloads/config.inc.php /opt/phpmyadmin/config.inc.php
 
 # Create a symbolic link for phpMyAdmin in apache directory
@@ -106,20 +106,17 @@ sudo apt install redis-server -y
 
 # Setup custom scripts for starting and stopping all services
 cd ~
-wget https://raw.githubusercontent.com/azzazkhan/notes/master/laraserve.sh -O .laraserve
-wget https://raw.githubusercontent.com/azzazkhan/notes/master/larastop.sh -O .larastop
+wget https://raw.githubusercontent.com/azzazkhan/notes/master/commands/laraserve.sh -O .laraserve
+wget https://raw.githubusercontent.com/azzazkhan/notes/master/commands/larastop.sh -O .larastop
 chmod +x .laraserve .larastop
+echo "export laraserve=\"sh ~/.laraserve" >> ~/.zshrc
+echo "export larastart=\"sh ~/.laraserve" >> ~/.zshrc
+echo "export laraopen=\"sh ~/.laraserve" >> ~/.zshrc
+echo "export laraclose=\"sh ~/.larastop" >> ~/.zshrc
+echo "export larastop=\"sh ~/.larastop" >> ~/.zshrc
+echo "export laraend=\"sh ~/.larastop" >> ~/.zshrc
 
 # Setup Git to use Windows Git credentials manager
 git config --global user.name "Azzaz Khan"
 git config --global user.email "25636920+azzazkhan@users.noreply.github.com"
 git config --global credential.helper "/mnt/c/Program\ Files/Git/mingw64/libexec/git-core/git-credential-manager-core.exe"
-
-# Install and setup node.js using NVM
-curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash
-nvm install --lts
-npm i -g yarn
-
-# Setup yarn global bin folder
-echo "export PATH=\"\$PATH:\$(yarn global bin)\"" >> ~/.zshrc
-yarn global add serve firebase-tools @angular/cli @nestjs/cli expo-cli eslint sass typescript
