@@ -121,5 +121,5 @@ nvm install --lts
 npm i -g yarn
 
 # Setup yarn global bin folder
-echo "export PATH=\"$PATH:$(yarn global bin)\"" >> ~/.zshrc
+echo "export PATH=\"\$PATH:\$(yarn global bin)\"" >> ~/.zshrc
 yarn global add serve firebase-tools @angular/cli @nestjs/cli expo-cli eslint sass typescript
