@@ -2,7 +2,7 @@
 sudo apt-get update && sudo apt-get upgrade -y
 
 # Install required packages
-sudo apt-get install curl git wget zip tar zsh ca-certificates build-essential -y
+sudo apt-get install curl git wget zip tar zsh ca-certificates build-essential software-properties-common -y
 
 # First thing first, install oh-my-zsh (zsh)
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
@@ -11,11 +11,7 @@ sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/too
 sudo apt-get install apache2 -y && sudo service apache2 start
 
 # Install and setup PHP 8.1
-sudo apt-get install software-properties-common -y
-
-# Add repositories for PHP 8.x and Swoole server for Laravel Octane
 sudo add-apt-repository ppa:ondrej/php -y
-sudo add-apt-repository ppa:openswoole/ppa -y
 
 # Update the system to fetch packages from newly added repositories
 sudo apt-get update && sudo apt-get upgrade -y
@@ -27,19 +23,13 @@ sudo apt-get install php8.1 php8.1-fpm libapache2-mod-php8.1 libapache2-mod-fcgi
 # Enabled and set apache configurations for PHP 8.1
 sudo a2enmod proxy_fcgi setenvif && sudo a2enconf php8.1-fpm
 
-# Installing PHP extensions
-sudo apt-get --fix-missing install php8.1-amqp php8.1-apcu php8.1-ast php8.1-bcmath \
-     php8.1-bz2 php8.1-cgi php8.1-cli php8.1-common php8.1-curl php8.1-dba \
-     php8.1-decimal php8.1-dev php8.1-ds php8.1-enchant php8.1-gd php8.1-gearman \
-     php8.1-gmp php8.1-imagick php8.1-mbstring php8.1-mcrypt\
-     php8.1-memcache php8.1-memcached php8.1-mongodb php8.1-mysql php8.1-oauth \
-     php8.1-odbc php8.1-opcache php8.1-pgsql php8.1-phpdbg php8.1-psr \
-     php8.1-redis php8.1-sqlite3 php8.1-ssh2 php8.1-uuid php8.1-xdebug php8.1-xml \
-     php8.1-xmlrpc php8.1-xsl php8.1-yaml php8.1-zip \
-     php8.1-gnupg php8.1-grpc php8.1-igbinary php8.1-inotify \
-     php8.1-intl php8.1-ldap php8.1-lz4 php8.1-msgpack php8.1-pspell \
-     php8.1-readline php8.1-soap php8.1-solr php8.1-openswoole \
-     php8.1-tidy php8.1-xhprof -y
+# Installing useful PHP extensions
+sudo apt-get --fix-missing install php8.1-bcmath php8.1-bz2 php8.1-cgi php8.1-cli \
+     php8.1-common php8.1-curl php8.1-dba php8.1-decimal php8.1-dev php8.1-ds \
+     php8.1-fpm php8.1-gd php8.1-imagick php8.1-gmp php8.1-mbstring php8.1-mcrypt \
+     php8.1-memcache php8.1-memcached php8.1-mongodb php8.1-mysql php8.1-opcache \
+     php8.1-pgsql php8.1-psr php8.1-sqlite3 php8.1-ssh2 php8.1-vips php8.1-xdebug \
+     php8.1-xml php8.1-xmlrpc php8.1-xsl php8.1-yaml php8.1-zip -y
 
 # Restart PHP 8.1 and apache server to reflect changes
 sudo service php8.1-fpm stop && sudo service php8.1-fpm start
