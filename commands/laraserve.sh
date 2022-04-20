@@ -1,5 +1,5 @@
 #!/bin/bash
-sudo service start php8.1-fpm
-sudo service start apache2
-sudo service start mysql
-sudo service start redis-server
+sudo service php8.1-fpm start
+sudo service apache2 start
+sudo service mysql start
+sudo service redis-server start
