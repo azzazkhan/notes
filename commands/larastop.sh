@@ -1,5 +1,5 @@
 #!/bin/bash
-sudo service stop php8.1-fpm
-sudo service stop apache2
-sudo service stop mysql
-sudo service stop redis-server
+sudo service php8.1-fpm stop
+sudo service apache2 stop
+sudo service mysql stop
+sudo service redis-server stop
