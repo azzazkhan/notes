@@ -70,7 +70,7 @@ sudo tar xvf Downloads/phpMyAdmin-latest-all-languages.tar.gz --strip-components
 
 # Download the custom configuration file with pre-defined configurations for development environmant
 wget -P Downloads https://raw.githubusercontent.com/azzazkhan/notes/master/stubs/phpmyadmin-config.inc.php
-sudo mv ~/Downloads/config.inc.php /opt/phpmyadmin/config.inc.php
+sudo mv ~/Downloads/phpmyadmin-config.inc.php /opt/phpmyadmin/config.inc.php
 
 # Create a symbolic link for phpMyAdmin in apache directory
 sudo ln -s /opt/phpmyadmin /var/www/html/phpmyadmin
