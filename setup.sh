@@ -94,8 +94,8 @@ sudo apt install -y libssl-dev libffi-dev python3 python3-dev \
     python-is-python3 python3-venv python3-pip
 
 # Install and setup Docker
-curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add - \
-    && sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu focal stable" \
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg \
+    && echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null \
     && apt-cache policy docker-ce \
     && sudo apt install -y docker-ce \
     && sudo systemctl enable docker \
