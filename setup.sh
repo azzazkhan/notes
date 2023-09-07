@@ -20,12 +20,11 @@ sudo add-apt-repository ppa:ondrej/php -y \
     && sudo apt-get upgrade -y \
 sudo apt-get --fix-missing install -y php8.1 php8.1-common php8.1-cli \
     php8.1-fpm php8.1-cgi libapache2-mod-php8.1 libapache2-mod-fcgid \
-    php-phpseclib php8.1-bcmath php8.1-bz2 php8.1-curl php8.1-dba \
-    php8.1-decimal php8.1-dev php8.1-ds php8.1-fpm php8.1-gd php8.1-grpc \
-    php8.1-imagick php8.1-gmp php8.1-mbstring php8.1-mcrypt php8.1-memcache \
-    php8.1-memcached php8.1-mongodb php8.1-mysql php8.1-opcache php8.1-pgsql \
-    php8.1-redis php8.1-soap php8.1-sqlite3 php8.1-ssh2 php8.1-vips \
-    php8.1-xdebug php8.1-xml php8.1-xmlrpc php8.1-yaml php8.1-zip
+    php-phpseclib php8.1-bcmath php8.1-bz2 php8.1-curl php8.1-decimal \
+    php8.1-dev php8.1-ds php8.1-fpm php8.1-grpc php8.1-imagick \
+    php8.1-gmp php8.1-mbstring php8.1-mcrypt php8.1-mysql php8.1-opcache \
+    php8.1-redis php8.1-sqlite3 php8.1-xdebug php8.1-xml php8.1-xmlrpc \
+    php8.1-yaml php8.1-zip
 
 # Enable required Apache modules and tell it to pass PHP script to FPM for
 # processing
@@ -45,15 +44,16 @@ sudo mysql -u root -p
 # MariaDB [(none)]> FLUSH PRIVILEGES;
 
 # Install and setup PhpMyAdmin
-mkdir ~/Downloads \
-    && wget -P ~/Downloads https://www.phpmyadmin.net/downloads/phpMyAdmin-latest-all-languages.tar.gz \
+wget https://www.phpmyadmin.net/downloads/phpMyAdmin-latest-all-languages.tar.gz \
     && sudo mkdir /opt/phpmyadmin \
-    && sudo tar xvf ~/Downloads/phpMyAdmin-latest-all-languages.tar.gz --strip-components=1 -C /opt/phpmyadmin \
-    && sudo wget https://raw.githubusercontent.com/azzazkhan/notes/master/stubs/phpmyadmin-config.inc.php -o /opt/phpmyadmin/config.inc.php \
+    && sudo tar xvf phpMyAdmin-latest-all-languages.tar.gz --strip-components=1 -C /opt/phpmyadmin \
+    && sudo wget https://raw.githubusercontent.com/azzazkhan/notes/master/stubs/phpmyadmin-config.inc.php -O /opt/phpmyadmin/config.inc.php \
+    && sudo mkdir /opt/phpmyadmin/tmp \
     && sudo chown -R $USER:www-data /opt/phpmyadmin \
+    && sudo chown -R www-data:www-data /opt/phpmyadmin/tmp \
     && sudo chown -R $USER:www-data /var/www \
     && ln -s /opt/phpmyadmin /var/www/html/phpmyadmin \
-    && rm -f ~/Downloads/phpMyAdmin-latest-all-languages.tar.gz
+    && rm -f phpMyAdmin-latest-all-languages.tar.gz
 
 # Install composer
 php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" \
@@ -83,11 +83,15 @@ wget https://raw.githubusercontent.com/azzazkhan/notes/master/commands/laraserve
     && echo "alias artisan-reset=\"artisan optimize:clear && artisan clear-compiled && artisan migrate:fresh --force\"" >> ~/.zshrc
 
 # Install and setup Node.js
-curl -sL https://deb.nodesource.com/setup_16.x -o /tmp/nodesource_setup.sh \
-    && sudo bash /tmp/nodesource_setup.sh \
-    && sudo apt install -y nodejs \
-    && sudo npm i -g yarn \
-    && yarn global add firebase-tools @nestjs/cli @angular/cli typescript
+sudo apt-get update
+sudo apt-get install -y ca-certificates curl gnupg
+sudo mkdir -p /etc/apt/keyrings
+curl -fsSL https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key | sudo gpg --dearmor -o /etc/apt/keyrings/nodesource.gpg
+# Create DEB repository
+NODE_MAJOR=18
+echo "deb [signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesource.com/node_$NODE_MAJOR.x nodistro main" | sudo tee /etc/apt/sources.list.d/nodesource.list
+sudo apt-get update
+sudo apt-get install nodejs -y
 
 # Install Python3
 sudo apt install -y libssl-dev libffi-dev python3 python3-dev \
