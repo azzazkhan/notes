@@ -1,11 +1,11 @@
 # Signed in as root user
 apt update && apt upgrade -y \
-    && adduser azzazkhan
-    && usermod -aG sudo azzazkhan
-    && passwd -d azzazkhan
-    && mkdir /home/azzazkhan/.ssh \
-    && cp /root/.ssh/authorized_keys /home/azzazkhan/.ssh/authorized_keys
-    && chown -R azzazkhan:root /home/azzazkhan/.ssh
+    && adduser ubuntu
+    && usermod -aG sudo ubuntu
+    && passwd -d ubuntu
+    && mkdir /home/ubuntu/.ssh \
+    && cp /root/.ssh/authorized_keys /home/ubuntu/.ssh/authorized_keys
+    && chown -R ubuntu:root /home/ubuntu/.ssh
 
 
 # Signed in as local user
@@ -25,6 +25,9 @@ sudo apt-get --fix-missing install -y php8.1 php8.1-common php8.1-cli \
     php8.1-gmp php8.1-mbstring php8.1-mcrypt php8.1-mysql php8.1-opcache \
     php8.1-redis php8.1-sqlite3 php8.1-xdebug php8.1-xml php8.1-xmlrpc \
     php8.1-yaml php8.1-zip
+
+# Add user to www-group to prevent permission errors
+sudo usermod -aG www-data ubuntu
 
 # Enable required Apache modules and tell it to pass PHP script to FPM for
 # processing
