@@ -18,13 +18,17 @@ sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/too
 sudo add-apt-repository ppa:ondrej/php -y \
     && sudo apt-get update \
     && sudo apt-get upgrade -y \
-sudo apt-get --fix-missing install -y php8.1 php8.1-common php8.1-cli \
-    php8.1-fpm php8.1-cgi libapache2-mod-php8.1 libapache2-mod-fcgid \
-    php-phpseclib php8.1-bcmath php8.1-bz2 php8.1-curl php8.1-decimal \
-    php8.1-dev php8.1-ds php8.1-fpm php8.1-grpc php8.1-imagick php8.1-intl \
-    php8.1-gmp php8.1-mbstring php8.1-mcrypt php8.1-mysql php8.1-opcache \
-    php8.1-redis php8.1-sqlite3 php8.1-xdebug php8.1-xml php8.1-xmlrpc \
-    php8.1-yaml php8.1-zip
+sudo apt-get --fix-missing install -y libapache2-mod-php8.2 \
+    libapache2-mod-fcgid php-phpseclib php8.2-bcmath php8.2-bz2 php8.2-cgi \
+    php8.2-cli php8.2-common php8.2-curl php8.2-decimal php8.2-dev php8.2-ds \
+    php8.2-fpm php8.2-gd php8.2-gmp php8.2-gnupg php8.2-grpc php8.2-http \
+    php8.2-igbinary php8.2-imagick php8.2-inotify php8.2-intl php8.2-lz4 \
+    php8.2-mbstring php8.2-mcrypt php8.2-mysql php8.2-opcache php8.2-pcov \
+    php8.2-pgsql php8.2-phpdbg php8.2-propro php8.2-protobuf php8.2-psr \
+    php8.2-raphf php8.2-rdkafka php8.2-readline php8.2-redis php8.2-sqlite3 \
+    php8.2-ssh2 php8.2-swoole php8.2-tidy php8.2-uuid php8.2-vips \
+    php8.2-xdebug php8.2-xml php8.2-xmlrpc php8.2-xsl php8.2-yac php8.2-yaml \
+    php8.2-zip
 
 # Add user to www-group to prevent permission errors
 sudo usermod -aG www-data ubuntu
@@ -32,7 +36,7 @@ sudo usermod -aG www-data ubuntu
 # Enable required Apache modules and tell it to pass PHP script to FPM for
 # processing
 sudo a2enmod proxy_fcgi setenvif headers rewrite \
-    && sudo a2enconf php8.1-fpm \
+    && sudo a2enconf php8.2-fpm \
     && sudo systemctl reload apache2
 
 # Install MariaDB (MySQL)
