@@ -1,3 +1,4 @@
+# Place this file in C:\Users\<USERNAME>\.wsl-port-forwarding.ps1
 Start-Transcript -Path "C:\Logs\Bridge-WslPorts.log" -Append
 $wslAddress = bash.exe -c "ifconfig eth0 | grep -oP '(?<=inet\s)\d+(\.\d+){3}'"
 
@@ -27,7 +28,7 @@ Invoke-Expression "New-NetFirewallRule -DisplayName 'WSL Port Forwarding' -Direc
 
 # Run the following commands to create a job which automatically forwards ports on system logon
 # $u = "stude"
-# $a = New-ScheduledTaskAction -Execute "powershell.exe" -Argument "-File `"C:\Users\$u\.wsl-port-forwarding.ps1.ps1`" -WindowStyle Hidden -ExecutionPolicy Bypass"
+# $a = New-ScheduledTaskAction -Execute "powershell.exe" -Argument "-File `"C:\Users\$u\.wsl-port-forwarding.ps1`" -WindowStyle Hidden -ExecutionPolicy Bypass"
 # $t = New-ScheduledTaskTrigger -AtLogon
 # $s = New-ScheduledTaskSettingsSet -AllowStartIfOnBatteries -DontStopIfGoingOnBatteries
 # $p = New-ScheduledTaskPrincipal -GroupId "BUILTIN\Administrators" -RunLevel Highest
