@@ -18,17 +18,16 @@ sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/too
 sudo add-apt-repository ppa:ondrej/php -y \
     && sudo apt-get update \
     && sudo apt-get upgrade -y \
-sudo apt-get --fix-missing install -y libapache2-mod-php8.2 \
-    libapache2-mod-fcgid php-phpseclib php8.2-bcmath php8.2-bz2 php8.2-cgi \
-    php8.2-cli php8.2-common php8.2-curl php8.2-decimal php8.2-dev php8.2-ds \
-    php8.2-fpm php8.2-gd php8.2-gmp php8.2-gnupg php8.2-grpc php8.2-http \
-    php8.2-igbinary php8.2-imagick php8.2-inotify php8.2-intl php8.2-lz4 \
-    php8.2-mbstring php8.2-mcrypt php8.2-mysql php8.2-opcache php8.2-pcov \
-    php8.2-pgsql php8.2-phpdbg php8.2-propro php8.2-protobuf php8.2-psr \
-    php8.2-raphf php8.2-rdkafka php8.2-readline php8.2-redis php8.2-sqlite3 \
-    php8.2-ssh2 php8.2-swoole php8.2-tidy php8.2-uuid php8.2-vips \
-    php8.2-xdebug php8.2-xml php8.2-xmlrpc php8.2-xsl php8.2-yac php8.2-yaml \
-    php8.2-zip
+sudo apt-get --fix-missing install -y libapache2-mod-php8.3 \
+    libapache2-mod-fcgid php-phpseclib php8.3-bcmath php8.3-bz2 php8.3-cgi \
+    php8.3-cli php8.3-common php8.3-curl php8.3-decimal php8.3-dev php8.3-ds \
+    php8.3-fpm php8.3-gd php8.3-gmp php8.3-gnupg php8.3-grpc php8.3-http \
+    php8.3-igbinary php8.3-imagick php8.3-inotify php8.3-intl php8.3-mbstring \
+    php8.3-mysql php8.3-opcache php8.3-pcov php8.3-pgsql php8.3-phpdbg \
+    php8.3-protobuf php8.3-raphf php8.3-rdkafka php8.3-readline php8.3-redis \
+    php8.3-sqlite3 php8.3-ssh2 php8.3-swoole php8.3-tidy php8.3-uuid php8.3-vips \
+    php8.3-xdebug php8.3-xml php8.3-xmlrpc php8.3-xsl php8.3-yac php8.3-yaml \
+    php8.3-zip
 
 # Add user to www-group to prevent permission errors
 sudo usermod -aG www-data ubuntu
@@ -36,11 +35,11 @@ sudo usermod -aG www-data ubuntu
 # Enable required Apache modules and tell it to pass PHP script to FPM for
 # processing
 sudo a2enmod proxy_fcgi setenvif headers rewrite \
-    && sudo a2enconf php8.2-fpm \
+    && sudo a2enconf php8.3-fpm \
     && sudo systemctl reload apache2
 
-# Install MariaDB (MySQL)
-sudo apt-get install -y mariadb-server mariadb-client
+# Install MySQL database server
+sudo apt-get install -y mysql-server mysql-client
 sudo systemctl start mysql
 sudo mysql_secure_installation
 sudo mysql -u root -p
@@ -63,42 +62,33 @@ wget https://www.phpmyadmin.net/downloads/phpMyAdmin-latest-all-languages.tar.gz
     && rm -f phpMyAdmin-latest-all-languages.tar.gz
 
 # Install composer
-php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" \
-    && php composer-setup.php \
-    && php -r "unlink('composer-setup.php');" \
-    && sudo mv composer.phar /usr/local/bin/composer
+curl -sLS https://getcomposer.org/installer | sudo php -- --install-dir=/usr/bin/ --filename=composer
 
-# Install redis server and setup helper scripts
+# Install Redis cache server
 sudo apt install redis-server -y
-wget https://raw.githubusercontent.com/azzazkhan/notes/master/commands/laraserve.sh -o ~/.laraserve \
-    && wget https://raw.githubusercontent.com/azzazkhan/notes/master/commands/larastop.sh -o ~/.larastop \
-    && chmod +x ~/.laraserve ~/.larastop \
-    && echo "\n# Custom paths" >> ~/.zshrc \
-    && echo "export PATH=\"\$PATH:\$(yarn global bin):/home/linuxbrew/.linuxbrew/bin\"" >> ~/.zshrc \
-    && echo "\n# Custom general aliases" >> ~/.zshrc \
-    && echo "alias zshconfig=\"vim ~/.zshrc\"" >> ~/.zshrc \
-    && echo "alias commit=\"git commit -S -m \$1\"" >> ~/.zshrc \
-    && echo "\n# Helper service management scripts" >> ~/.zshrc \
-    && echo "alias laraserve=\"sh ~/.laraserve\"" >> ~/.zshrc \
-    && echo "alias larastart=\"sh ~/.laraserve\"" >> ~/.zshrc \
-    && echo "alias laraopen=\"sh ~/.laraserve\"" >> ~/.zshrc \
-    && echo "alias laraclose=\"sh ~/.larastop\"" >> ~/.zshrc \
-    && echo "alias larastop=\"sh ~/.larastop\"" >> ~/.zshrc \
-    && echo "alias laraend=\"sh ~/.larastop\"" >> ~/.zshrc \
-    && echo "\n# Laravel related helper aliases" >> ~/.zshrc \
-    && echo "alias artisan=\"php artisan\"" >> ~/.zshrc \
-    && echo "alias artisan-reset=\"artisan optimize:clear && artisan clear-compiled && artisan migrate:fresh --force\"" >> ~/.zshrc
+
+# Install NVM
+wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
+nvm install --lts && nvm use --lts
+npm i -g yarn
+
+# Setup custom shell exports and alises
+echo "\n\n"  >> ~/.zshrc \
+    && echo "export PATH=\"\$PATH:\$(yarn global bin):\$(composer global config bin-dir --absolute --quiet)\"\n" >> ~/.zshrc \
+    && echo "alias artisan=\"php artisan\"\n" \
+    && echo "alias mfs=\"php artisan migrate:fresh --seed\"\n" \
+    && echo "alias artc=\"php artisan optimize:clear && php artisan clear-compiled\""
 
 # Install and setup Node.js
-sudo apt-get update
-sudo apt-get install -y ca-certificates curl gnupg
-sudo mkdir -p /etc/apt/keyrings
-curl -fsSL https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key | sudo gpg --dearmor -o /etc/apt/keyrings/nodesource.gpg
-# Create DEB repository
-NODE_MAJOR=18
-echo "deb [signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesource.com/node_$NODE_MAJOR.x nodistro main" | sudo tee /etc/apt/sources.list.d/nodesource.list
-sudo apt-get update
-sudo apt-get install nodejs -y
+# sudo apt-get update
+# sudo apt-get install -y ca-certificates curl gnupg
+# sudo mkdir -p /etc/apt/keyrings
+# curl -fsSL https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key | sudo gpg --dearmor -o /etc/apt/keyrings/nodesource.gpg
+# # Create DEB repository
+# NODE_MAJOR=18
+# echo "deb [signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesource.com/node_$NODE_MAJOR.x nodistro main" | sudo tee /etc/apt/sources.list.d/nodesource.list
+# sudo apt-get update
+# sudo apt-get install nodejs -y
 
 # Install Python3
 sudo apt install -y libssl-dev libffi-dev python3 python3-dev \
@@ -131,12 +121,12 @@ type -p curl >/dev/null || sudo apt install curl -y \
     && sudo apt install gh -y
 
 # GPG key and commit signature verification
-#! RSA 4096
-gpg --full-generate-key \
-    && gpg --list-secret-keys --keyid-format=long
-KEY="B0D92B31F7EF73BD" gpg --armor --export $KEY \
-    && git config --global user.signingkey $KEY
+# Generate 4096 bit RSA key with email set to as GitHub temp email
+gpg --full-generate-key
+gpg --list-secret-keys --keyid-format=long
+gpg --armor --export $KEY
+git config --global user.signingkey $KEY
 
 # Setup git
-git config --global user.name "Azzaz Khan" && \
-git config --global user.email "25636920+azzazkhan@users.noreply.github.com"
+git config --global user.name ""
+git config --global user.email ""
