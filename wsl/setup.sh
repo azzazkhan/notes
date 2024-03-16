@@ -19,6 +19,7 @@ gpg --full-generate-key
 gpg --list-secret-keys --keyid-format=long
 gpg --armor --export $KEY
 git config --global user.signingkey $KEY
+git config --global init.defaultBranch master
 
 # Setup git
 git config --global user.name "$GIT_USER"
