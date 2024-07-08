@@ -20,7 +20,7 @@ sudo apt-get --fix-missing install -y libapache2-mod-php8.3 \
     php8.3-uuid php8.3-vips php8.3-xdebug php8.3-xml php8.3-xmlrpc php8.3-xsl \
     php8.3-yaml php8.3-zip
 
-sudo usermod -aG www-data $USER && sudo chown $USER:www-data /var/www
+sudo usermod -aG www-data $USER && sudo chown -R $USER:$USER /var/www
 
 sudo a2enmod proxy_fcgi setenvif headers rewrite \
     && sudo a2enconf php8.3-fpm \
